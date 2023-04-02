@@ -1,12 +1,10 @@
-Personal website
-================
+# Personal website
 
 This is a personl website created for Herbert Daniel Ludowieg Otero.
 Used the Halcyonic HTML template by HTML5 UP. See notes on the template
-below in the "Halcyonic template" section.
+[below](#halcyonic-temp) in the "Halcyonic template" section.
 
-Halcyonic template
-==================
+# Halcyonic template {#halcyonic-temp}
 
 Halcyonic by HTML5 UP
 html5up.net | @ajlkn
@@ -26,14 +24,13 @@ AJ
 aj@lkn.io | @ajlkn
 
 
-Credits:
---------
+## Credits:
 
-Demo Images:
-^^^^^^^^^^^^
+### Demo Images:
+
 Unsplash (unsplash.com)
 
-Other:
-^^^^^^
+### Other:
+
 jQuery (jquery.com)
 Responsive Tools (github.com/ajlkn/responsive-tools)
