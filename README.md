@@ -4,7 +4,7 @@ This is a personl website created for Herbert Daniel Ludowieg Otero.
 Used the Halcyonic HTML template by HTML5 UP. See notes on the template
 [below](#halcyonic-temp) in the "Halcyonic template" section.
 
-# Halcyonic template {#halcyonic-temp}
+# Halcyonic template <a id="halcyonic-temp"></a>
 
 Halcyonic by HTML5 UP
 html5up.net | @ajlkn
