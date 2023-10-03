@@ -1,5 +1,6 @@
 ---
-layout: default
+layout : default
+use_math : true
 ---
 
 # A look at the finite difference method
