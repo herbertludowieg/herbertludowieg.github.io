@@ -177,7 +177,28 @@ $$
 Once you go into evaluating the coefficients for a six-point FD method, the situation becomes more complicated and requires the help of a computer program. So, I made a small Python script that I implemented into my library called [VibrAv](https://github.com/herbertludowieg/vibrav) and will share it below.
 
 ```python
-Fancy python code goes here
+def _get_prefac(p, d):
+    prefacs = np.sum([2*x*y for x, y in zip(p, d)])
+    return prefacs
+
+def _determine_prefactors(p, d):
+    n = len(p)
+    eqs = [2/np.math.factorial(x)*np.sum(p*d**x) \
+               for x in range(1, 2*n, 2)]
+    eqs[0] -= _get_prefac(p, d)
+    return eqs
+
+def _get_arb_coeffs(steps):
+    from scipy.optimize import root
+    x0 = np.array([0.5]*steps.shape[0])
+    res = root(_determine_prefactors, x0=x0, args=steps)
+    prefac = _get_prefac(res.x, steps)
+    coeffs = res.x/prefac
+    return coeffs
 ```
+
+So let's break it down. The magic happens in the `_determine_prefactors` function above and what we are essentially doing is we are adding up the different orders in the Taylor series expansion equations. The overall equation is
+
+
 
 Here I will put fancy text on how to compute the FD coefficients as seen on [here](https://en.wikipedia.org/wiki/Finite_difference_coefficient).
