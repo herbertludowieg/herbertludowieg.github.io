@@ -25,7 +25,7 @@ f(x_o+h) = &f(x_o) + f^{(1)}(x_o)h + \frac{1}{2!}f^{(2)}(x_o)h^2 \\
 \end{align*}
 $$
 
-Here, $n$ is an arbitrary number for the total number of derivatives we include in the expansion, and the superscript in parentheses, $f^{(n)}$, represents the order of the derivative with respect to $x$ for the function. $R_n$ is the remainder term denoting the difference between the true equation and the approximated expansion. This is similar to the [Big-O notation](https://en.wikipedia.org/wiki/Big_O_notation) as it looks at the local truncation error and we will start using the Big-O notation from here on. If we then truncate the expansion to the first term we get,
+Here, $$n$$ is an arbitrary number for the total number of derivatives we include in the expansion, and the superscript in parentheses, $$f^{(n)}$$, represents the order of the derivative with respect to $$x$$ for the function. $$R_n$$ is the remainder term denoting the difference between the true equation and the approximated expansion. This is similar to the [Big-O notation](https://en.wikipedia.org/wiki/Big_O_notation) as it looks at the local truncation error and we will start using the Big-O notation from here on. If we then truncate the expansion to the first term we get,
 
 $$
 \begin{equation}
@@ -43,7 +43,7 @@ f^{(1)}(x_o) = f^{\prime}(x_o) = \frac{f(x_o+h) - f(x_o)}{h} + O(h)
 \end{equation}
 $$
 
-Which is similar to equation \eqref{eq:limit-ddx} without the limit. The equation above is an approximation of the first derivative truncated to the first term and the error scales linearly as denoted by $O(h)$.
+Which is similar to equation \eqref{eq:limit-ddx} without the limit. The equation above is an approximation of the first derivative truncated to the first term and the error scales linearly as denoted by $$O(h)$$.
 
 ## Difference between forward, backward, and central FD approaches
 
@@ -71,7 +71,7 @@ f^{\prime}(x_o) = \frac{f(x_o) - f(x_o-h)}{h} + O(h)
 \end{equation}
 $$
 
-The difference between the two comes from understanding the Taylor series expansion of $f(x_o-h)$ vs. $f(x_o+h)$. If we look at the generalized equation for a Taylor series,
+The difference between the two comes from understanding the Taylor series expansion of $$f(x_o-h)$$ vs. $$f(x_o+h)$$. If we look at the generalized equation for a Taylor series,
 
 $$
 \begin{equation}
@@ -91,7 +91,7 @@ f(x_o-h) \approx
 \end{align*}
 $$
 
-We see that the $x_o$ terms on the right-hand side cancel each other out and after reducing terms we get,
+We see that the $$x_o$$ terms on the right-hand side cancel each other out and after reducing terms we get,
 
 $$
 \begin{equation}
@@ -112,7 +112,7 @@ f^{\prime}(x_o) = \frac{f(x_o+h)-f(x_o-h)}{2h} + O(h^2)
 \end{equation}
 $$
 
-And that is the equation. But, what is the big deal? Well, if look at the last term in the equation you will notice that the error now depends quadratically on the step size, $O(h^2)$, thereby increasing the accuracy of the approximated derivative that we calculate. Now I will show you how this comes to be. The first thing to consider are the Taylor series expansions for $f(x_o+h)$ and $f(x_o-h)$,
+And that is the equation. But, what is the big deal? Well, if look at the last term in the equation you will notice that the error now depends quadratically on the step size, $$O(h^2)$$, thereby increasing the accuracy of the approximated derivative that we calculate. Now I will show you how this comes to be. The first thing to consider are the Taylor series expansions for $$f(x_o+h)$$ and $$f(x_o-h)$$,
 
 $$
 \begin{align*}
@@ -139,7 +139,7 @@ f(x_o+h) - f(x_o-h) = 2f^{(1)}(x_o)h + O(h^2)
 \end{equation}
 $$
 
-With some re-arranging we get equation \eqref{eq:central-fd}. So, by including extra points in the finite difference equation we can decrease the error in our approximation. With 2 points we get an error of $O(h^2)$, 3 points will have $O(h^3)$, etc. Just as a proof I will show what happens when we want to approximate the derivative with a [five-point stencil](https://en.wikipedia.org/wiki/Five-point_stencil), which has the equation
+With some re-arranging we get equation \eqref{eq:central-fd}. So, by including extra points in the finite difference equation we can decrease the error in our approximation. With 2 points we get an error of $$O(h^2)$$, 3 points will have $$O(h^3)$$, etc. Just as a proof I will show what happens when we want to approximate the derivative with a [five-point stencil](https://en.wikipedia.org/wiki/Five-point_stencil), which has the equation
 
 $$
 \begin{equation}
@@ -163,7 +163,7 @@ $$
 \end{align*}
 $$
 
-We must eliminate the third ($h^3$) and fourth ($h^4$) order terms from the expansion using,
+We must eliminate the third ($$h^3$$) and fourth ($$h^4$$) order terms from the expansion using,
 
 $$
 \begin{equation}
@@ -176,7 +176,7 @@ I know this is the equation based on the pre-factors in the known equation for t
 
 ## Computing the FD coefficients {#computing-fd-coeff}
 
-So if you are interested in finding the coefficients for the FD method using more than two points, such as the five-point stencil, you can look [here](https://en.wikipedia.org/wiki/Finite_difference_coefficient) for the coefficients up to eight points. But, something that you might notice as I did is that the step sizes **MUST** be consecutive, i.e. you can have $f(x_o\pm h)$, $f(x_o\pm 2h)$, $f(x_o\pm 3h)$, etc. However, if you have $f(x_o\pm h)$, and $f(x_o\pm 3h)$ you can no longer use the five-point stencil as the third and fourth order terms will not cancel out in the Taylor series expansion. I am a big believer of seeing is believing so I will show you. Let's construct the Taylor series expansions for $f(x_o\pm h)$, and $f(x_o\pm 3h)$,
+So if you are interested in finding the coefficients for the FD method using more than two points, such as the five-point stencil, you can look [here](https://en.wikipedia.org/wiki/Finite_difference_coefficient) for the coefficients up to eight points. But, something that you might notice as I did is that the step sizes **MUST** be consecutive, i.e. you can have $$f(x_o\pm h)$$, $$f(x_o\pm 2h)$$, $$f(x_o\pm 3h)$$, etc. However, if you have $$f(x_o\pm h)$$, and $$f(x_o\pm 3h)$$ you can no longer use the five-point stencil as the third and fourth order terms will not cancel out in the Taylor series expansion. I am a big believer of seeing is believing so I will show you. Let's construct the Taylor series expansions for $$f(x_o\pm h)$$, and $$f(x_o\pm 3h)$$,
 
 $$
 \begin{align*}
@@ -199,7 +199,7 @@ f^{(1)}(x_o)10h - \frac{1}{6}f^{(3)}(x_o)38h^3 + O(h^4)
 \end{equation}
 $$
 
-The even terms disappear due to symmetry. However, the odd functions are where things get tricky as they carry a sign change and we see that the third-order terms remain in the equation. This means that we cannot approximate the derivative with those pre-factor coefficients anymore and we have to re-calculate them for this specific use case. This is a very simple case and the pre-factors are $27$ and $-1$ for $f(x_o\pm h)$ and $f(x_o\pm 3h)$, respectively. I calculated these by looking at the non-common pre-factor, ignoring the 1/6, for the third order term and I will get 54. The equation to approximate the first derivative is then,
+The even terms disappear due to symmetry. However, the odd functions are where things get tricky as they carry a sign change and we see that the third-order terms remain in the equation. This means that we cannot approximate the derivative with those pre-factor coefficients anymore and we have to re-calculate them for this specific use case. This is a very simple case and the pre-factors are 27 and -1 for $$f(x_o\pm h)$$ and $$f(x_o\pm 3h)$$, respectively. I calculated these by looking at the non-common pre-factor, ignoring the 1/6, for the third order term and I will get 54. The equation to approximate the first derivative is then,
 
 $$
 \begin{equation}
