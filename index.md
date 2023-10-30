@@ -14,6 +14,8 @@ I worked as a Graduate Research Assistant as a Ph.D. candidate at the University
 
 [A look at numerical differentiation with finite difference approaches](./fd-method.html)
 
+<a href="jupyter-html/james_bond_analysis.html" target="_blank">A fun little analysis of the movies in the James Bond franchise</a>
+
 # Education
 
 **University at Buffalo, The State University of New York**
