@@ -1,0 +1,6 @@
+sphinx
+nbsphinx
+sphinx-book-theme
+sphinx-togglebutton
+sphinx_design
+myst-parser

@@ -1,3 +1,5 @@
 .*.swp
 _site/
 Gemfile.lock
+build/
+md-baks/
