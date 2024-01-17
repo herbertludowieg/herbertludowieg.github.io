@@ -55,6 +55,38 @@ html_static_path = ['_static']
 html_theme_options = {
     "home_page_in_toc": True,
     "show_navbar_depth": 3,
+    "icon_links": [
+        {
+            "name": "LinkedIn",
+            "url": "https://www.linkedin.com/in/herbert-daniel-ludowieg-442ba2a0/",
+            "icon": "fa-brands fa-linkedin",
+            "type": "fontawesome"
+        },
+        {
+            "name": "GitHub",
+            "url": "https://github.com/herbertludowieg",
+            "icon": "fa-brands fa-github",
+            "type": "fontawesome"
+        },
+        {
+            "name": "Resume",
+            "url": "_static/Herbert_Ludowieg_Resume.pdf",
+            "icon": "fa-solid fa-download",
+            "type": "fontawesome"
+        },
+        {
+            "name": "ORCiD",
+            "url": "https://orcid.org/0000-0002-4786-1348",
+            "icon": "fa-brands fa-orcid",
+            "type": "fontawesome"
+        },
+        {
+            "name": "Google Scholar",
+            "url": "https://scholar.google.com/citations?user=4pxDwJIAAAAJ&hl",
+            "icon": "fa-brands fa-google-scholar",
+            "type": "fontawesome"
+        },
+    ],
 }
 
 html_title = "Herbert D. Ludowieg"

@@ -1,6 +1,9 @@
 Herbert Daniel Ludowieg
 =======================
 
+.. toctree::
+  :caption: Main Page
+
 About me
 --------
 
@@ -16,45 +19,45 @@ Complexes* (can find it
 which showcases the depth of my expertise.
 
 .. dropdown:: Show More
-	:animate: fade-in
+  :animate: fade-in
 
-	I have also made contributions to the professionally maintained
-	`Amsterdam Density Functional <https://www.scm.com/product/adf/>`_ (ADF)
-	FORTRAN program package, implementing a missing parameter
-	in the theoretical calculations leading to a better comparison between theory
-	and experiment. This showcases my ability to contribute quality and robust code
-	to a large team of developers. This led to a publication in *ChemistryOpen*,
-	which can be found `here <https://doi.org/10.1002/open.202200020>`_,
-	underscoring my ability to drive practical advancements through my work.
+  I have also made contributions to the professionally maintained
+  `Amsterdam Density Functional <https://www.scm.com/product/adf/>`_ (ADF)
+  FORTRAN program package, implementing a missing parameter
+  in the theoretical calculations leading to a better comparison between theory
+  and experiment. This showcases my ability to contribute quality and robust code
+  to a large team of developers. This led to a publication in *ChemistryOpen*,
+  which can be found `here <https://doi.org/10.1002/open.202200020>`_,
+  underscoring my ability to drive practical advancements through my work.
 
-	As a Graduate Research Assistant, I honed my programming skills, particularly
-	in Python, where I developed a sophisticated library for calculating vibronic
-	effects in molecules, employing a central finite difference approach. This work
-	led to five publications, which are highlighted in my :ref:`Publications`.
-	Among these publications is one in the prestigious
-	journal, *Science Advances*, where my contributions as a programmer played a
-	pivotal role in achieving the first quantitative comparison of theory and
-	experiment for magneto-chiral dichroism. Additionally, I have extensive
-	experience in setting up Continuous Integration/Continuous Deployment (CI/CD)
-	pipelines using GitHub Actions, as well as utilizing version control tools like
-	Git and SVN (Apache Subversion). My familiarity with high-performance computing
-	clusters (HPC) and the Slurm workload manager further enrich my technical skill
-	set.
+  As a Graduate Research Assistant, I honed my programming skills, particularly
+  in Python, where I developed a sophisticated library for calculating vibronic
+  effects in molecules, employing a central finite difference approach. This work
+  led to five publications, which are highlighted in my :ref:`Publications`.
+  Among these publications is one in the prestigious
+  journal, *Science Advances*, where my contributions as a programmer played a
+  pivotal role in achieving the first quantitative comparison of theory and
+  experiment for magneto-chiral dichroism. Additionally, I have extensive
+  experience in setting up Continuous Integration/Continuous Deployment (CI/CD)
+  pipelines using GitHub Actions, as well as utilizing version control tools like
+  Git and SVN (Apache Subversion). My familiarity with high-performance computing
+  clusters (HPC) and the Slurm workload manager further enrich my technical skill
+  set.
 
-	Currently, I am actively seeking opportunities as a Data Scientist or Machine
-	Learning Engineer. My unique educational background, encompassing degrees in
-	both physics and chemistry, equips me with a holistic perspective that
-	facilitates pattern recognition and a deep understanding of coding solutions. I
-	am not content with superficial comprehension; I possess an innate drive to
-	delve into the intricacies of code, pinpoint issues, and find effective
-	solutions. This attribute makes me an ideal candidate to identify program
-	deficiencies and deliver the highest quality code that surpasses expectations.
+  Currently, I am actively seeking opportunities as a Data Scientist or Machine
+  Learning Engineer. My unique educational background, encompassing degrees in
+  both physics and chemistry, equips me with a holistic perspective that
+  facilitates pattern recognition and a deep understanding of coding solutions. I
+  am not content with superficial comprehension; I possess an innate drive to
+  delve into the intricacies of code, pinpoint issues, and find effective
+  solutions. This attribute makes me an ideal candidate to identify program
+  deficiencies and deliver the highest quality code that surpasses expectations.
 
-	I am excited to contribute my knowledge and passion for programming to
-	data-driven roles, where I can merge my research experience with cutting-edge
-	technology to create a meaningful impact. If you seek a versatile and dedicated
-	professional who brings innovation and problem-solving to the forefront, I am
-	eager to explore how I can be a valuable asset to your team.
+  I am excited to contribute my knowledge and passion for programming to
+  data-driven roles, where I can merge my research experience with cutting-edge
+  technology to create a meaningful impact. If you seek a versatile and dedicated
+  professional who brings innovation and problem-solving to the forefront, I am
+  eager to explore how I can be a valuable asset to your team.
 
 Codes and other things
 ----------------------
@@ -68,6 +71,7 @@ Codes and other things
 
 Publications
 ------------
+
 Doctoral Thesis (April 17th, 2023)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -112,10 +116,13 @@ Peer-reviewed articles
    DOI: `10.1126/sciadv.abg2859 <https://doi.org/10.1126/sciadv.abg2859>`_
 #. Ganguly, G; **Ludowieg, H D**; Autschbach, J. Ab Initio Study of Vibronic
    and Magnetic 5f-to-5f and Dipole-Allowed 5f-to-6d and Charge-Transfer
-   Transitions in [UX<sub>6</sub>]<sup>n−</sup> (X = Cl, Br; n = 1, 2).
+   Transitions in |UX6| (X = Cl, Br; n = 1, 2).
    *J. Chem. Theory Comput.* **2020**, *16* (8), 5189–5202.
    DOI: `10.1021/acs.jctc.0c00386 <https://doi.org/10.1021/acs.jctc.0c00386>`_
 #. Abella, L; **Ludowieg, H D**; Autschbach, J. Theoretical study of the Raman
-   optical activity spectra of [M(en)<sub>3</sub>]<sup>3+</sup> with M = Co, Rh.
+   optical activity spectra of |Men3| with M = Co, Rh.
    *Chirality* **2020**, *32*, 741–752.
    DOI: `10.1002/chir.23194 <https://doi.org/10.1002/chir.23194>`_
+
+.. |Men3| replace:: [M(en)\ :sub:`3`\ ]\ :sup:`3+`
+.. |UX6| replace:: [UX\ :sub:`6`\ ]\ :sup:`n`
