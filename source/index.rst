@@ -63,6 +63,8 @@ Codes and other things
 
   coding.rst
   fd-method.md
+  movie-analysis/anim_movies_analysis.ipynb
+  movie-analysis/james_bond_analysis.ipynb
 
 Publications
 ------------
