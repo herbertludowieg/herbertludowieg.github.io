@@ -69,6 +69,13 @@ Codes and other things
   movie-analysis/anim_movies_analysis.ipynb
   movie-analysis/james_bond_analysis.ipynb
 
+Presentations
+-------------
+#. `SEEDS4CD <_static/ludowieg-seeds4cd-pres.pdf>`_
+#. `Research Group Seminar <_static/ludowieg-ub-group-sem-03-22-2023.pdf>`_
+#. `Dissertation Defense <_static/ludowieg-defense.pdf>`_
+#. `Proposal Presentation <_static/ludowieg-proposal-pres.pdf>`_
+
 Publications
 ------------
 
