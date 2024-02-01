@@ -1,0 +1,775 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>A look at the finite difference method &#8212; Herbert D. Ludowieg</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'fd-method';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Analysis of ratings on animated throughout the years" href="movie-analysis/anim_movies_analysis.html" />
+    <link rel="prev" title="Coding Projects" href="coding.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/phd-with-bull-crop.jpg" class="logo__image only-light" alt="Herbert D. Ludowieg - Home"/>
+    <script>document.write(`<img src="_static/phd-with-bull-crop.jpg" class="logo__image only-dark" alt="Herbert D. Ludowieg - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/herbert-daniel-ludowieg-442ba2a0/" title="LinkedIn" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/herbertludowieg" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="_static/Herbert_Ludowieg_Resume.pdf" title="Resume" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-download fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">Resume</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://orcid.org/0000-0002-4786-1348" title="ORCiD" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-orcid fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">ORCiD</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://scholar.google.com/citations?user=4pxDwJIAAAAJ&hl" title="Google Scholar" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-google-scholar fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">Google Scholar</span></a>
+        </li>
+</ul></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Herbert Daniel Ludowieg
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="coding.html">Coding Projects</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">A look at the finite difference method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="movie-analysis/anim_movies_analysis.html">Analysis of ratings on animated throughout the years</a></li>
+<li class="toctree-l1"><a class="reference internal" href="movie-analysis/james_bond_analysis.html">Analysis of James Bond franchise movies</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/fd-method.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>A look at the finite difference method</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-between-forward-backward-and-central-fd-approaches">Difference between forward, backward, and central FD approaches</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-difference">Forward difference</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-difference">Backward difference</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#central-difference">Central difference</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-fd-coefficients">Computing the FD coefficients</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="a-look-at-the-finite-difference-method">
+<h1>A look at the finite difference method<a class="headerlink" href="#a-look-at-the-finite-difference-method" title="Link to this heading">#</a></h1>
+<p>The finite difference method is a method that we can use to approximate
+derivatives. In fact, in many precalculus classes, this is introduced via the
+equation,</p>
+<div class="math notranslate nohighlight" id="equation-eq-limit-ddx">
+<span class="eqno">(1)<a class="headerlink" href="#equation-eq-limit-ddx" title="Link to this equation">#</a></span>\[
+\begin{equation}
+f^{\prime}(x_o) = \lim_{h \rightarrow 0} \frac{f(x_o+h) - f(x_o)}{h}
+\end{equation}
+\]</div>
+<p>However, computers cannot understand what the limit of <span class="math notranslate nohighlight">\(h \rightarrow 0\)</span> means.
+In other words, a computer cannot reach 0; it will always get to a number that
+is infinitesimally small yet not 0. So what do we do? Well, we can take a look
+at the Taylor series expansion of <span class="math notranslate nohighlight">\(f(x_o+h)\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+f(x_o+h) = &amp;f(x_o) + f^{(1)}(x_o)h + \frac{1}{2!}f^{(2)}(x_o)h^2 \\
+               &amp;+\frac{1}{3!}f^{(3)}(x_o)h^3+...+ \frac{1}{n!}f^{(n)}(x_o)h^n+R_n(x)
+\end{align*}
+\end{split}\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(n\)</span> is an arbitrary number for the total number of derivatives we
+include in the expansion, and the superscript in parentheses, <span class="math notranslate nohighlight">\(f^{(n)}\)</span>,
+represents the order of the derivative with respect to <span class="math notranslate nohighlight">\(x\)</span> for the function.
+<span class="math notranslate nohighlight">\(R_n\)</span> is the remainder term denoting the difference between the true equation
+and the approximated expansion. This is similar to the <a class="reference external" href="https://en.wikipedia.org/wiki/Big_O_notation">Big-O
+notation</a> as it looks at the
+local truncation error and we will start using the Big-O notation from here on.
+If we then truncate the expansion to the first term we get,</p>
+<div class="math notranslate nohighlight" id="equation-eq-forw-trunc">
+<span class="eqno">(2)<a class="headerlink" href="#equation-eq-forw-trunc" title="Link to this equation">#</a></span>\[
+\begin{equation}
+f(x_o+h) = f(x_o) + f^{(1)}(x_o)h + O(h)
+\end{equation}
+\]</div>
+<p>Re-arranging the equation then gives,</p>
+<div class="math notranslate nohighlight" id="equation-eq-forw-reordered">
+<span class="eqno">(3)<a class="headerlink" href="#equation-eq-forw-reordered" title="Link to this equation">#</a></span>\[
+\begin{equation}
+f^{(1)}(x_o) = f^{\prime}(x_o) = \frac{f(x_o+h) - f(x_o)}{h} + O(h)
+\end{equation}
+\]</div>
+<p>Which is similar to equation <a class="reference internal" href="#equation-eq-limit-ddx">(1)</a> without the limit. The
+equation above is an approximation of the first derivative truncated to the
+first term and the error scales linearly as denoted by <span class="math notranslate nohighlight">\(O(h)\)</span>.</p>
+<section id="difference-between-forward-backward-and-central-fd-approaches">
+<h2>Difference between forward, backward, and central FD approaches<a class="headerlink" href="#difference-between-forward-backward-and-central-fd-approaches" title="Link to this heading">#</a></h2>
+<p>Here, I want to explore the slight differences between the forward, backward,
+and central finite difference methods.</p>
+<section id="forward-difference">
+<h3>Forward difference<a class="headerlink" href="#forward-difference" title="Link to this heading">#</a></h3>
+<p>This is actually the same equation as what we were looking at previously,</p>
+<div class="math notranslate nohighlight" id="equation-eq-forw-trunc2">
+<span class="eqno">(4)<a class="headerlink" href="#equation-eq-forw-trunc2" title="Link to this equation">#</a></span>\[
+\begin{equation}
+f^{\prime}(x_o) = \frac{f(x_o+h) - f(x_o)}{h} + O(h)
+\end{equation}
+\]</div>
+<p>With linearly scaling error as we have already seen.</p>
+</section>
+<section id="backward-difference">
+<h3>Backward difference<a class="headerlink" href="#backward-difference" title="Link to this heading">#</a></h3>
+<p>The backward FD equation is similar to the forward difference,</p>
+<div class="math notranslate nohighlight" id="equation-eq-back-diff">
+<span class="eqno">(5)<a class="headerlink" href="#equation-eq-back-diff" title="Link to this equation">#</a></span>\[
+\begin{equation}
+f^{\prime}(x_o) = \frac{f(x_o) - f(x_o-h)}{h} + O(h)
+\end{equation}
+\]</div>
+<p>The difference between the two comes from understanding the Taylor series
+expansion of <span class="math notranslate nohighlight">\(f(x_o-h)\)</span> vs. <span class="math notranslate nohighlight">\(f(x_o+h)\)</span>. If we look at the generalized
+equation for a Taylor series,</p>
+<div class="math notranslate nohighlight" id="equation-eq-taylor-series">
+<span class="eqno">(6)<a class="headerlink" href="#equation-eq-taylor-series" title="Link to this equation">#</a></span>\[
+\begin{equation}
+f(x) = \sum_{n=0}^{\infty} \frac{1}{n!}(x-a)^{n}\frac{d^{(n)}}{dx^{(n)}}f(a)
+\end{equation}
+\]</div>
+<p>Resulting in the following equation for the backward difference up to second
+order,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+f(x_o-h) \approx 
+    &amp;\frac{1}{0!}(x_o-h-x_o))^0 \frac{d^0}{dx^0} f(x_o) \\
+    &amp;+ \frac{1}{1!}(x_o-h-x_o)^1 \frac{d^1}{dx^1} f(x_o) \\
+    &amp;+ \frac{1}{2!}(x_o-h-x_o)^2 \frac{d^2}{dx^2} f(x_o) \\
+\end{align*}
+\end{split}\]</div>
+<p>We see that the <span class="math notranslate nohighlight">\(x_o\)</span> terms on the right-hand side cancel each other out and
+after reducing terms we get,</p>
+<div class="math notranslate nohighlight" id="equation-eq-back-taylor-simplified">
+<span class="eqno">(7)<a class="headerlink" href="#equation-eq-back-taylor-simplified" title="Link to this equation">#</a></span>\[
+\begin{equation}
+f(x_o-h) \approx (-h)^0 f(x_o) + (-h)^1 f^{\prime}(x_o) + (-h)^2 f^{\prime\prime}
+\end{equation}
+\]</div>
+<p>We can see that any linear terms will now carry a minus sign in the expression
+and all quadratic terms remain positive. So what’s the point of all this? Well
+we are about to see that.</p>
+</section>
+<section id="central-difference">
+<h3>Central difference<a class="headerlink" href="#central-difference" title="Link to this heading">#</a></h3>
+<p>The central finite difference method is a combination of the forward and
+backward difference methods. Without the specifics on how we get the equations,
+the central finite difference equation is,</p>
+<div class="math notranslate nohighlight" id="equation-eq-central-fd">
+<span class="eqno">(8)<a class="headerlink" href="#equation-eq-central-fd" title="Link to this equation">#</a></span>\[
+\begin{equation}
+f^{\prime}(x_o) = \frac{f(x_o+h)-f(x_o-h)}{2h} + O(h^2)
+\end{equation}
+\]</div>
+<p>And that is the equation. But, what is the big deal? Well, if look at the last
+term in the equation you will notice that the error now depends quadratically
+on the step size, <span class="math notranslate nohighlight">\(O(h^2)\)</span>, thereby increasing the accuracy of the
+approximated derivative that we calculate. Now I will show you how this comes
+to be. The first thing to consider are the Taylor series expansions for
+<span class="math notranslate nohighlight">\(f(x_o+h)\)</span> and <span class="math notranslate nohighlight">\(f(x_o-h)\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+    f(x_o+h) = &amp;f(x_o) + f^{(1)}(x_o)h + \frac{1}{2}f^{(2)}(x_o)h^2
+               +\frac{1}{6}f^{(3)}(x_o)h^3 +O(h^3) \\
+    f(x_o-h) = &amp;f(x_o) - f^{(1)}(x_o)h + \frac{1}{2}f^{(2)}(x_o)h^2 
+               -\frac{1}{6}f^{(3)}(x_o)h^3+O(h^3)
+\end{align*}
+\end{split}\]</div>
+<p>And taking the difference of the equations gives,</p>
+<div class="math notranslate nohighlight" id="equation-eq-cent-taylor-simplified">
+<span class="eqno">(9)<a class="headerlink" href="#equation-eq-cent-taylor-simplified" title="Link to this equation">#</a></span>\[
+\begin{equation}
+f(x_o+h) - f(x_o-h) = 2f^{(1)}(x_o)h + \frac{1}{3}f^{(3)}(x_o)h^3+O(h^3)
+\end{equation}
+\]</div>
+<p>What we now see is that the even terms will cancel off and the odd terms will
+remain. As such, in order to have the equaion only depend on the first
+derivative we must truncate to the second order giving,</p>
+<div class="math notranslate nohighlight" id="equation-eq-central-diff">
+<span class="eqno">(10)<a class="headerlink" href="#equation-eq-central-diff" title="Link to this equation">#</a></span>\[
+\begin{equation}
+f(x_o+h) - f(x_o-h) = 2f^{(1)}(x_o)h + O(h^2)
+\end{equation}
+\]</div>
+<p>With some re-arranging we get equation <a class="reference internal" href="#equation-eq-central-fd">(8)</a>. So, by including
+extra points in the finite difference equation we can decrease the error in our
+approximation. With 2 points we get an error of <span class="math notranslate nohighlight">\(O(h^2)\)</span>, 3 points will have
+<span class="math notranslate nohighlight">\(O(h^3)\)</span>, etc. Just as a proof I will show what happens when we want to
+approximate the derivative with a <a class="reference external" href="https://en.wikipedia.org/wiki/Five-point_stencil">five-point
+stencil</a>, which has the
+equation</p>
+<div class="math notranslate nohighlight" id="equation-eq-five-point-stencil">
+<span class="eqno">(11)<a class="headerlink" href="#equation-eq-five-point-stencil" title="Link to this equation">#</a></span>\[
+\begin{equation}
+f^{\prime}(x_o) = \frac{-f(x_o+2h)+8f(x_o+h)-8f(x_o-h)+f(x_o-2h)}{12h} + O(h^4)
+\end{equation}
+\]</div>
+<p>We would have the following equations for the Taylor series expansion,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+    f(x_o+h) = &amp;f(x_o) + f^{(1)}(x_o)h + \frac{1}{2}f^{(2)}(x_o)h^2 \\
+               &amp;+\frac{1}{6}f^{(3)}(x_o)h^3+\frac{1}{24}f^{(4)}(x_o)h^4+O(h^4) \\
+    f(x_o-h) = &amp;f(x_o) - f^{(1)}(x_o)h + \frac{1}{2}f^{(2)}(x_o)h^2 \\
+               &amp;-\frac{1}{6}f^{(3)}(x_o)h^3+\frac{1}{24}f^{(4)}(x_o)h^4+O(h^4) \\
+    f(x_o+2h) = &amp;f(x_o) + f^{(1)}(x_o)2h + \frac{1}{2}f^{(2)}(x_o)4h^2 \\
+               &amp;+\frac{1}{6}f^{(3)}(x_o)8h^3+\frac{1}{24}f^{(4)}(x_o)16h^4+O(h^4) \\
+    f(x_o-2h) = &amp;f(x_o) - f^{(1)}(x_o)2h + \frac{1}{2}f^{(2)}(x_o)4h^2 \\
+               &amp;-\frac{1}{6}f^{(3)}(x_o)8h^3+\frac{1}{24}f^{(4)}(x_o)16h^4+O(h^4) \\
+\end{align*}
+\end{split}\]</div>
+<p>We must eliminate the third ($<span class="math notranslate nohighlight">\(h^3\)</span><span class="math notranslate nohighlight">\() and fourth (\)</span><span class="math notranslate nohighlight">\(h^4\)</span>$) order terms from the expansion using,</p>
+<div class="math notranslate nohighlight" id="equation-eq-five-point-coeff">
+<span class="eqno">(12)<a class="headerlink" href="#equation-eq-five-point-coeff" title="Link to this equation">#</a></span>\[
+\begin{equation}
+8[f(x_o+h)-f(x_o-h)] - [f(x_o+2h)-f(x_o-2h)]
+\end{equation}
+\]</div>
+<p>I know this is the equation based on the pre-factors in the known equation for
+the five-point stencil. If you work out the algebra using the equation above,
+you will find that all third and fourth-order terms cancel out and you get the
+actual equation. So you may be asking yourself why I even mentioned any of
+this. We already have the equations using multi-point finite difference
+methods. Well, I will now explain this.</p>
+</section>
+</section>
+<section id="computing-the-fd-coefficients">
+<h2>Computing the FD coefficients<a class="headerlink" href="#computing-the-fd-coefficients" title="Link to this heading">#</a></h2>
+<p>So if you are interested in finding the coefficients for the FD method using
+more than two points, such as the five-point stencil, you can look
+<a class="reference external" href="https://en.wikipedia.org/wiki/Finite_difference_coefficient">here</a> for the
+coefficients up to eight points. But, something that you might notice as I did
+is that the step sizes <strong>MUST</strong> be consecutive, i.e. you can have <span class="math notranslate nohighlight">\(f(x_o\pm
+h)\)</span>, <span class="math notranslate nohighlight">\(f(x_o\pm 2h)\)</span>, <span class="math notranslate nohighlight">\(f(x_o\pm 3h)\)</span>, etc. However, if you have <span class="math notranslate nohighlight">\(f(x_o\pm
+h)\)</span>, and <span class="math notranslate nohighlight">\(f(x_o\pm 3h)\)</span> you can no longer use the five-point stencil as the
+third and fourth order terms will not cancel out in the Taylor series
+expansion. I am a big believer of seeing is believing so I will show you. Let’s
+construct the Taylor series expansions for <span class="math notranslate nohighlight">\(f(x_o\pm h)\)</span>, and <span class="math notranslate nohighlight">\(f(x_o\pm
+3h)\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+    f(x_o+h) = &amp;f(x_o) + f^{(1)}(x_o)h + \frac{1}{2}f^{(2)}(x_o)h^2 \\
+               &amp;+\frac{1}{6}f^{(3)}(x_o)h^3+\frac{1}{24}f^{(4)}(x_o)h^4+O(h^4) \\
+    f(x_o-h) = &amp;f(x_o) - f^{(1)}(x_o)h + \frac{1}{2}f^{(2)}(x_o)h^2 \\
+               &amp;-\frac{1}{6}f^{(3)}(x_o)h^3+\frac{1}{24}f^{(4)}(x_o)h^4+O(h^4) \\
+    f(x_o+3h) = &amp;f(x_o) + f^{(1)}(x_o)3h + \frac{1}{2}f^{(2)}(x_o)9h^2 \\
+               &amp;+\frac{1}{6}f^{(3)}(x_o)27h^3+\frac{1}{24}f^{(4)}(x_o)81h^4+O(h^4) \\
+    f(x_o-3h) = &amp;f(x_o) - f^{(1)}(x_o)3h + \frac{1}{2}f^{(2)}(x_o)9h^2 \\
+               &amp;-\frac{1}{6}f^{(3)}(x_o)27h^3+\frac{1}{24}f^{(4)}(x_o)81h^4+O(h^4) \\
+\end{align*}
+\end{split}\]</div>
+<p>If we use equation <a class="reference internal" href="#equation-eq-five-point-coeff">(12)</a> for the five-point stencil we
+get,</p>
+<div class="math notranslate nohighlight" id="equation-eq-five-wrong">
+<span class="eqno">(13)<a class="headerlink" href="#equation-eq-five-wrong" title="Link to this equation">#</a></span>\[
+\begin{equation}
+f^{(1)}(x_o)10h - \frac{1}{6}f^{(3)}(x_o)38h^3 + O(h^4)
+\end{equation}
+\]</div>
+<p>The even terms disappear due to symmetry. However, the odd functions are where
+things get tricky as they carry a sign change and we see that the third-order
+terms remain in the equation. This means that we cannot approximate the
+derivative with those pre-factor coefficients anymore and we have to
+re-calculate them for this specific use case. This is a very simple case and
+the pre-factors are 27 and -1 for <span class="math notranslate nohighlight">\(f(x_o\pm h)\)</span> and <span class="math notranslate nohighlight">\(f(x_o\pm 3h)\)</span>,
+respectively. I calculated these by looking at the non-common pre-factor,
+ignoring the 1/6, for the third order term and I will get 54. The equation to
+approximate the first derivative is then,</p>
+<div class="math notranslate nohighlight" id="equation-eq-arb-sym-solved">
+<span class="eqno">(14)<a class="headerlink" href="#equation-eq-arb-sym-solved" title="Link to this equation">#</a></span>\[
+\begin{equation}
+f^{\prime}(x_o) = \frac{-f(x_o+3h)+27f(x_o+h)-27f(x_o-h)+f(x_o-3h)}{48h} + O(h^4)
+\end{equation}
+\]</div>
+<p>Once you go into evaluating the coefficients for a six-point FD method, the
+situation becomes more complicated and requires the help of a computer program.
+So, I made a small Python script that I implemented into my library called
+<a class="reference external" href="https://github.com/herbertludowieg/vibrav">VibrAv</a> and will share it below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_get_prefac</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="n">prefacs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">y</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">prefacs</span>
+
+<span class="k">def</span> <span class="nf">_determine_prefactors</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">eqs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="n">d</span><span class="o">**</span><span class="n">x</span><span class="p">)</span> \
+               <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
+    <span class="n">eqs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="n">_get_prefac</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">eqs</span>
+
+<span class="k">def</span> <span class="nf">_get_arb_coeffs</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">root</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">]</span><span class="o">*</span><span class="n">steps</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">root</span><span class="p">(</span><span class="n">_determine_prefactors</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">x0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">steps</span><span class="p">)</span>
+    <span class="n">prefac</span> <span class="o">=</span> <span class="n">_get_prefac</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">steps</span><span class="p">)</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="n">prefac</span>
+    <span class="k">return</span> <span class="n">coeffs</span>
+</pre></div>
+</div>
+<p>So let’s break it down. The magic happens in the <code class="docutils literal notranslate"><span class="pre">_determine_prefactors</span></code>
+function above and what we are essentially doing is we are adding up the
+different orders in the Taylor series expansion equations. The overall equation
+is</p>
+<p>Here I will put fancy text on how to compute the FD coefficients as seen on
+<a class="reference external" href="https://en.wikipedia.org/wiki/Finite_difference_coefficient">here</a>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="coding.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Coding Projects</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="movie-analysis/anim_movies_analysis.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Analysis of ratings on animated throughout the years</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-between-forward-backward-and-central-fd-approaches">Difference between forward, backward, and central FD approaches</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-difference">Forward difference</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-difference">Backward difference</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#central-difference">Central difference</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-fd-coefficients">Computing the FD coefficients</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Herbert Daniel Ludowieg
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, Herbert Daniel Ludowieg.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
